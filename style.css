@@ -1,0 +1,94 @@
+/** Grid system - https://www.w3schools.com/css/css_rwd_grid.asp **/
+* {
+	box-sizing: border-box;
+	font-family: "arial black";
+}
+
+/**body {
+  background-color: lightblue;
+}**/
+
+h1 {
+  color: gray;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+  margin: 70px;
+}
+
+ul {
+  font-family: verdana;
+  font-size: 20px;
+  margin: 70px;
+}
+
+
+.responsive {
+	width: 100%;
+	max-width: 1000px;
+	height: auto;
+}
+
+h3 {
+float: right;
+
+}
+
+
+
+.highlight {
+    color: orangered;
+    font-weight: bold;
+}
+
+.important {
+    color: black;
+    font-weight: bold;
+text-align: center;
+}
+
+#div_1 {  
+font-family: verdana;
+font-size: 20px;
+}	 
+
+
+.right {
+float:right;
+}
+
+
+
+
+.overflow {
+  overflow: auto;
+}
+
+
+
+.topnav {
+  overflow: hidden;
+  background-color: black;
+}
+
+.topnav a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: white;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: red;
+  color: white;
+}
