@@ -1,7 +1,7 @@
 /** Grid system - https://www.w3schools.com/css/css_rwd_grid.asp **/
 * {
-	box-sizing: border-box;
-	font-family: "arial black";
+  box-sizing: border-box;
+  font-family: "arial black";
 }
 
 body {
@@ -9,42 +9,54 @@ body {
 }
 
 html {
-	min-height: 100%
+  min-height: 100%;
 }
-
-
 
 .backimage1 {
-  background: url('halo 1.jpg') no-repeat center center fixed;
+  background: url("halo 1.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover
+  background-size: cover;
 }
 .backimage2 {
-  background: url('halo 2.jpg') no-repeat center center fixed;
+  background: url("halo 2.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover
+  background-size: cover;
 }
 .backimage3 {
-  background: url('halo 3.jpg') no-repeat center center fixed;
+  background: url("halo 3.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover
+  background-size: cover;
 }
 .backimage4 {
-  background: url('halo 4.jpg') no-repeat center center fixed;
+  background: url("halo 4.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover
+  background-size: cover;
 }
 
-
-
-
-
-
-
-
-h1 {
-  color: gray;
+.rynaPortfolio h1 {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
   text-align: center;
+}
+.rynaPortfolio h2 {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
+}
+.rynaPortfolio p {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
+}
+.rynaPortfolio iframe {
+  margin: 0 auto;
+  background-color: rgb(0, 0, 0, 0.4);
+  width: 600px;
+  height: 300px;
+  display: block;
 }
 
 p {
@@ -59,49 +71,39 @@ ul {
   margin: 70px;
 }
 
-
 .responsive {
-	width: 100%;
-	max-width: 1000px;
-	height: auto;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
 }
 
 h3 {
-float: right;
-
+  float: right;
 }
 
-
-
 .highlight {
-    color: orangered;
-    font-weight: bold;
+  color: orangered;
+  font-weight: bold;
 }
 
 .important {
-    color: black;
-    font-weight: bold;
-text-align: center;
+  color: black;
+  font-weight: bold;
+  text-align: center;
 }
 
-#div_1 {  
-font-family: verdana;
-font-size: 20px;
-}	 
-
+#div_1 {
+  font-family: verdana;
+  font-size: 20px;
+}
 
 .right {
-float:right;
+  float: right;
 }
-
-
-
 
 .overflow {
   overflow: auto;
 }
-
-
 
 .topnav {
   overflow: hidden;
