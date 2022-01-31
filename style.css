@@ -13,22 +13,22 @@ html {
 }
 
 .backimage1 {
-  background: url("halo 1.jpg") no-repeat center center fixed;
+  background: url("./Images/halo 1.jpg") no-repeat center center fixed;
   height: 100%;
   background-size: cover;
 }
 .backimage2 {
-  background: url("halo 2.jpg") no-repeat center center fixed;
+  background: url("./Images/halo 2.jpg") no-repeat center center fixed;
   height: 100%;
   background-size: cover;
 }
 .backimage3 {
-  background: url("halo 3.jpg") no-repeat center center fixed;
+  background: url("./Images/halo 3.jpg") no-repeat center center fixed;
   height: 100%;
   background-size: cover;
 }
 .backimage4 {
-  background: url("halo 4.jpg") no-repeat center center fixed;
+  background: url("./Images/halo 4.jpg") no-repeat center center fixed;
   height: 100%;
   background-size: cover;
 }
