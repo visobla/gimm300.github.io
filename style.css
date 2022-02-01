@@ -33,6 +33,10 @@ html {
   background-size: cover;
 }
 
+
+
+/** ------------------------ RYNA ------------------------**/
+
 .rynaPortfolio h1 {
   color: rgb(255, 255, 255);
   background-color: rgb(0, 0, 0, 0.4);
@@ -59,6 +63,28 @@ html {
   display: block;
 }
 
+
+
+
+/** ------------------------ ZACH ------------------------**/
+
+.responsivezach {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 p {
   font-family: verdana;
   font-size: 20px;
@@ -71,7 +97,7 @@ ul {
   margin: 70px;
 }
 
-.responsive {
+.responsivezach {
   width: 100%;
   max-width: 1000px;
   height: auto;
