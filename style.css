@@ -74,7 +74,12 @@ html {
   height: auto;
 }
 
-
+.zachPortfolio h1 {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
+}
 
 
 
@@ -95,12 +100,6 @@ ul {
   font-family: verdana;
   font-size: 20px;
   margin: 70px;
-}
-
-.responsivezach {
-  width: 100%;
-  max-width: 1000px;
-  height: auto;
 }
 
 h3 {
