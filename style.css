@@ -8,6 +8,10 @@
 	width: 100%;
 }
 
+.background {
+    background-color: steelblue;
+}
+
 @media only screen and (min-width: 768px) {
     /* For desktop: */
     .col-1 {width: 8.33%;}
@@ -157,7 +161,7 @@ html {
 /** ------------------------ Hayden ------------------------**/
 
 .responsivehayden {
-  width: 100%;
+  width: 80%;
   max-width: 850px;
   height: auto;
   
@@ -169,6 +173,8 @@ html {
   margin: 0;
   text-align: center;
 }
+
+/** ------------------------ Misc ------------------------**/
 
 p {
   font-family: verdana;
