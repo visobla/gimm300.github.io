@@ -122,7 +122,7 @@ html {
   text-align: center;
 }
 
-.3D {
+.3D{
     vertical-align: top;
 }
 
@@ -141,6 +141,12 @@ html {
   text-align: center;
 }
 
+.responsiveViolet {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  text-align: left;
+}
 /** ------------------------ Hayden ------------------------**/
 
 .responsivehayden {
