@@ -110,8 +110,8 @@ html {
 /** ------------------------ ZACH ------------------------**/
 
 .responsivezach {
-  width: 100%;
-  max-width: 1000px;
+  width: 80%;
+  max-width: 850px;
   height: auto;
 }
 
@@ -122,7 +122,7 @@ html {
   text-align: center;
 }
 
-.3D{
+.threeD {
     vertical-align: top;
 }
 
