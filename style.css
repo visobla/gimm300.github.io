@@ -135,10 +135,9 @@ html {
   display: block;
 }
 .responsiveryna {
-  width: 100%;
+  width: 80%;
   max-width: 850px;
   height: auto;
-  max-height: 1080px;
 }
 
 /** ------------------------ ZACH ------------------------**/
@@ -226,6 +225,11 @@ h3 {
   float: right;
 }
 
+iframe {
+  max-width: 100%;
+  height: 300px;
+}
+
 .highlight {
   color: orangered;
   font-weight: bold;
@@ -273,25 +277,26 @@ h3 {
   background-color: red;
   color: white;
 }
-img #zachProfile {
-  width: 200px;
-  height: 200px;
+#zachProfile {
+  margin-top: 25%;
+  width: 100px;
+  height: 100px;
 }
-img #violetProfile {
-  width: 200px;
-  height: 200px;
+#violetProfile {
+  width: 100px;
+  height: 100px;
 }
-img #rynaProfile {
-  width: 200px;
-  height: 200px;
+#rynaProfile {
+  width: 100px;
+  height: 100px;
 }
-img #haydenProfile {
-  width: 200px;
-  height: 200px;
+#haydenProfile {
+  width: 100px;
+  height: 100px;
 }
 .hoverImage {
   transition: transform 200ms ease-in-out;
 }
 .hoverImage:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
