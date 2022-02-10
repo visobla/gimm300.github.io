@@ -8,6 +8,13 @@
 	width: 100%;
 }
 
+.textMain{
+    color:white;
+    font-size: 22px;
+    text-shadow: 2px 2px 2px black;
+    
+}
+
 .background {
     background-color: steelblue;
 }
@@ -173,6 +180,14 @@ html {
   margin: 0;
   text-align: center;
 }
+
+.haydenPortfolio2 h1 {
+    color: rgb(255, 255, 255);
+    margin: 0;
+    text-align: center;
+}
+
+
 
 /** ------------------------ Misc ------------------------**/
 
