@@ -278,6 +278,10 @@ iframe {
   background-color: red;
   color: white;
 }
+
+.profilePics {
+  padding-left: 5%;
+}
 #zachProfile {
   margin-top: 25%;
   width: 100px;
