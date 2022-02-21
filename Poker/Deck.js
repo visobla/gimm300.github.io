@@ -1,3 +1,6 @@
+const _ = require("lodash");
+const PokerEvaluator = require("poker-evaluator");
+
 class Deck{
     constructor(){
         this.cards=[];
@@ -20,23 +23,10 @@ class Deck{
                 suit="Spades"
             }
             for(var y=1; y<14;y++){
-                var number;
-                if(y==1){
-                    number="Ace"
-                }
-                else if(y==11){
-                    number="Jack"
-                }
-                else if(y==12){
-                    number="Queen"
-                }
-                else if(y==13){
-                    number="King"
-                }
-                else{number=y}
+
                 var temp={
                     suit:suit,
-                    number:number
+                    number:y
                 }
                 this.cards.push(temp)
             }
@@ -49,6 +39,13 @@ class Deck{
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
+    draw(){
+        if(this.cards.length>0){
+        var temp = this.cards[0]
+        this.cards.shift()
+        return temp}
+        else{return "Deck empty"}
+    }
 
     listDeck(){
         return this.cards
@@ -56,33 +53,33 @@ class Deck{
 
     checkMatch(cards){
         if(this.royalFlush(cards)){
-            return "Royal Flush";
+            return {rank:10,highCard:13};
         }
         else if(this.straightFlush(cards)){
-            return "Straight Flush";
+            return this.straightFlush(cards);
         }
         else if(this.fourOfAKind(cards)){
-            return "4 of a kind";
+            return this.fourOfAKind(cards);
         }
         else if(this.fullHouse(cards)){
-            return "Full House";
+            return this.fullHouse(cards);
         }
         else if(this.flush(cards)){
-            return "Flush";
+            return this.flush(cards);
         }
         else if(this.straight(cards)){
-            return "Straight";
+            return this.straight(cards);
         }
         else if(this.threeOfAKind(cards)){
-            return "Three of a Kind";
+            return this.threeOfAKind(cards);
         }
         else if(this.twoPair(cards)){
-            return "Two Pair";
+            return this.twoPair(cards);
         }
         else if(this.pair(cards)){
-            return "Pair";
+            return this.pair(cards);
         }
-        return "High Card";
+        return this.highCard(cards);
     }
     royalFlush(cards){
         var control = [1,13,12,11,10
@@ -109,46 +106,42 @@ class Deck{
                     return false}
                 }}
             }
+            
             return true;
     }
     straightFlush(cards){
         var temp = []
-        var suit;
+        var suits={
+            Hearts:0,
+            Diamonds:0,
+            Clubs:0,
+            Spades:0
+        };
         var wrong=0;
-        
-        for(var x = 0; x<cards.length;x++){
-            
-            if(suit==undefined){
-                suit=cards[x].suit
-            }else{
-                if(suit!=cards[x].suit){
-                    wrong++;
+        var ret = {rank:0,highCard:0}
+        for(var x=0;x<cards.length;x++){
+            if(cards[x].suit=="Hearts"){
+                suits.Hearts++;
+            }
+            else if(cards[x].suit=="Diamonds"){
+                suits.Diamonds++
+            }
+            else if(cards[x].suit=="Clubs"){
+                suits.Clubs++
+            }
+            else if(cards[x].suit=="Spades"){
+                suits.Spades++
+            }
 
-                    if(wrong>2){
-                       // console.log(x)
-                    return false}
-                }
-            }
-            if(suit==cards[x].suit){
-                var numTemp;
-            if(cards[x].number=="Ace"){
-                numTemp=1
-            }
-            else if(cards[x].number=="King"){
-                numTemp=13
-            }
-            else if(cards[x].number=="Queen"){
-                numTemp=12
-            }
-            else if(cards[x].number=="Jack"){
-                numTemp=11
-            }
-            else{
-                numTemp=cards[x].number
-            }
-            temp.push(numTemp)
-            //console.log(temp)
         }
+        if(suits.Hearts<5&&suits.Diamonds<5&&suits.Clubs<5&&suits.Spades<5){
+            return false;
+        }
+        var maxKey = _.maxBy(_.keys(suits), function (o) { return suits[o]; });
+        for(var x = 0; x<cards.length;x++){
+            if(cards[x].suit==maxKey){
+                temp.push(cards[x].number)
+            }
         }
         temp.sort((a,b)=>a-b)
         //console.log(temp)
@@ -171,30 +164,55 @@ class Deck{
 
         var orderedCards = left.concat(right);
         //console.log("ORDERED",orderedCards)
-        
-        for(var x = 0; x<orderedCards.length; x++){
-            //console.log(orderedCards[x+1]!=1&&orderedCards[x]!=undefined)
-            //console.log(orderedCards[x]+1!=orderedCards[x+1]&&orderedCards[x]!=undefined)
-            if(orderedCards[x]==13){
-                if(orderedCards[x+1]!=1&&orderedCards[x+1]!=undefined){
-                    console.log(x)
-                    return false
-                }
+        var evaluate = []
+        for(var x = 0; x<cards.length;x++){
+            var tempString = ""
+            if(cards[x].number==1){
+                tempString+="A"
             }
-            else if(orderedCards[x]+1!=orderedCards[x+1]&&orderedCards[x+1]!=undefined){
-                console.log(x)
-                return false
+            else if(cards[x].number==13){
+                tempString+="K"
             }
+            else if(cards[x].number==12){
+                tempString+="Q"
+            }
+            else if(cards[x].number==11){
+                tempString+="J"
+            }
+            else if(cards[x].number==10){
+                tempString+="T"
+            }
+            else{
+                tempString+=cards[x].number.toString()
+            }
+
+            if(cards[x].suit=="Diamonds"){
+                tempString+="d"
+            }
+            else if(cards[x].suit=="Spades"){
+                tempString+="s"
+            }
+            else if(cards[x].suit=="Hearts"){
+                tempString+="h"
+            }
+            else if(cards[x].suit=="Clubs"){
+                tempString+="c"
+            }
+            evaluate.push(tempString)
         }
 
        if(left.length==0&&right.length==0){
          //  console.log("temp",temp)
        }
+       var fancy = PokerEvaluator.evalHand(evaluate)
       // console.log("left",left+","+right);
-       return true;
+      ret.rank=9;
+      ret.highCard=10
+      return fancy.handName=="straight flush"?ret:false;
     }
     fourOfAKind(cards){
        // console.log(cards)
+       var ret = {rank:8,highCard:0}
         var same = 0;
         for(var x = 1; x<14;x++){
             same=0;
@@ -204,12 +222,13 @@ class Deck{
                 }
             }
             if(same>=4){
+                ret.highCard=x;
                 break
             }
            
         }
         
-        return same>=4;
+        return same>=4?ret:false;
         
 
 
@@ -217,14 +236,18 @@ class Deck{
     fullHouse(cards){
         var three;
         var two;
+        var high = []
+        var ret = {rank:7,highCard:0}
         for(var x = 1; x<14;x++){
            three=0
             for(var y =0;y<cards.length;y++){
                 if(x==cards[y].number){
                     three++
+                    
                 }
             }
             if(three==3){
+                high.push(x)
                 break;
             }
            
@@ -237,32 +260,62 @@ class Deck{
                 }
             }
             if(two==2){
+                high.push(x)
                 break;
             }
            
         }
-        return(two==2&&three==3)
+        ret.highCard=Math.max(...high)
+        return(two==2&&three==3)?ret:false
 
     }
     flush(cards){
-        var suit;
+        var suits={
+            Hearts:0,
+            Diamonds:0,
+            Clubs:0,
+            Spades:0
+        };
         var wrong=0;
-        for(var x=1;x<cards.length;x++){
-        if(suit==undefined){
-            suit=cards[x].suit
-        }else{
-            if(suit!=cards[x].suit){
-                wrong++
-                if(wrong>2){
-                    //console.log(x)
-                return false}
+        var numbers=[];
+        var ret = {rank:6,highCard:0}
+        console.log(cards)
+        
+        for(var x=0;x<cards.length;x++){
+            if(cards[x].suit=="Hearts"){
+                suits.Hearts++;
             }
-        }}
-        return true;
+            else if(cards[x].suit=="Diamonds"){
+                suits.Diamonds++
+            }
+            else if(cards[x].suit=="Clubs"){
+                suits.Clubs++
+            }
+            else if(cards[x].suit=="Spades"){
+                suits.Spades++
+            }
+
+        }
+        if(suits.Hearts<5&&suits.Diamonds<5&&suits.Clubs<5&&suits.Spades<5){
+            return false;
+        }
+        var maxKey = _.maxBy(_.keys(suits), function (o) { return suits[o]; });
+        for(var x = 0; x<cards.length;x++){
+            if(cards[x].suit==maxKey){
+                numbers.push(cards[x].number)
+            }
+        }
+        ret.highCard=Math.max(...numbers)
+        return ret;
     }
 
     straight(cards){
+        var ret = {rank:5,highCard:0}
         var temp=[]
+        var correct=0;
+        var rightNumbers=[]
+        var correctBool=true;
+        var wrong = 0;
         for(var x=0;x<cards.length;x++){
             temp.push(cards[x].number)
         }
@@ -273,7 +326,8 @@ class Deck{
         var left=[];
         var right=[];
         for(var a = 0; a<temp.length;a++){
-           // console.log(temp[a],temp[a+1])
+            console.log(temp[a],temp[a+1])
+
             if(temp[a]+1!=temp[a+1]&&temp[a+1]!=undefined){
                 for(var b = 0; b<a+1;b++){
                   //  console.log(b)
@@ -289,25 +343,54 @@ class Deck{
 
         var orderedCards = left.concat(right);
         //console.log("ORDERED",orderedCards)
-        
-        for(var x = 0; x<orderedCards.length; x++){
-            //console.log(orderedCards[x+1]!=1&&orderedCards[x]!=undefined)
-            //console.log(orderedCards[x]+1!=orderedCards[x+1]&&orderedCards[x]!=undefined)
-            if(orderedCards[x]==13){
-                if(orderedCards[x+1]!=1&&orderedCards[x+1]!=undefined){
-                    console.log(x)
-                    return false
-                }
-            }
-            else if(orderedCards[x]+1!=orderedCards[x+1]&&orderedCards[x+1]!=undefined){
-                console.log(x)
-                return false
-            }
+        if(orderedCards.length<5){
+            return false
         }
-        return true;
+        var evaluate = []
+        for(var x = 0; x<cards.length;x++){
+            var tempString = ""
+            if(cards[x].number==1){
+                tempString+="A"
+            }
+            else if(cards[x].number==13){
+                tempString+="K"
+            }
+            else if(cards[x].number==12){
+                tempString+="Q"
+            }
+            else if(cards[x].number==11){
+                tempString+="J"
+            }
+            else if(cards[x].number==10){
+                tempString+="T"
+            }
+            else{
+                tempString+=cards[x].number.toString()
+            }
+
+            if(cards[x].suit=="Diamonds"){
+                tempString+="d"
+            }
+            else if(cards[x].suit=="Spades"){
+                tempString+="s"
+            }
+            else if(cards[x].suit=="Hearts"){
+                tempString+="h"
+            }
+            else if(cards[x].suit=="Clubs"){
+                tempString+="c"
+            }
+            evaluate.push(tempString)
+        }
+
+        var fancy = PokerEvaluator.evalHand(evaluate)
+    
+        ret.highCard=10
+        return fancy.handName=="straight"?ret:false;
     }
     threeOfAKind(cards){
         var three;
+        var ret = {rank:4,highCard:0}
         for(var x = 1; x<14;x++){
             three=0
              for(var y =0;y<cards.length;y++){
@@ -316,7 +399,8 @@ class Deck{
                  }
              }
              if(three==3){
-                 return true
+                 ret.highCard=x
+                 return ret
              }
             
          }
@@ -325,7 +409,8 @@ class Deck{
     twoPair(cards){
         var two = 0;
         var pair = 0;
-
+        var ret = {rank:3,highCard:0}
+        var numbers=[]
         for(var x = 1; x<14;x++){
             two=0
             for(var y =0;y<cards.length;y++){
@@ -334,17 +419,19 @@ class Deck{
                 }
             }
             if(two==2){
+                numbers.push(x)
                 pair++
             }
             if(pair==2){
-                return true;
+                ret.highCard=Math.max(...numbers)
+                return ret;
             }
            
         }
         return false;
     }
     pair(cards){
-
+        var ret = {rank:2,highCard:0}
         var two = 0;
        
 
@@ -356,13 +443,23 @@ class Deck{
                 }
             }
             if(two==2){
-               return true;
+                ret.highCard=x
+               return ret;
             }
 
            
         }
         return false;
 
+    }
+    highCard(cards){
+        var ret = {rank:1,highCard:0}
+        var nums =[]
+        for(var x = 0; x<cards.length;x++){
+            nums.push(cards[x].number)
+        }
+        ret.highCard=Math.max(...nums)
+        return ret
     }
 }
 module.exports = Deck
