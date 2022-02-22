@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <script src="http://160.3.46.230:3000/socket.io/socket.io.js"></script>
         <script>
             var deck;
             var code;
             var name
-          var socket = io("http://localhost:3000");
+          var socket = io("http://160.3.46.230:3000");
           socket.on("newPlayer",()=>{
             var send = {code:code}
             console.log(send)
