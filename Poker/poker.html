@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <script src="http://160.3.46.230:3000/socket.io/socket.io.js"></script>
+        <script src="https://pokergimm.herokuapp.com/socket.io/socket.io.js"></script>
         <script>
             var deck;
             var code;
             var name
-          var socket = io("http://160.3.46.230:3000");
+          var socket = io("https://pokergimm.herokuapp.com/");
           socket.on("newPlayer",()=>{
             var send = {code:code}
             console.log(send)

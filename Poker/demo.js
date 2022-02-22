@@ -281,7 +281,7 @@ socket.on("hands",(data,callback)=>{
 
 
 
-server.listen(3000, () => {
+server.listen(process.env.PORT, () => {
   console.log('listening on *:3000');
 });
 
