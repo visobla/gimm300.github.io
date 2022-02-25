@@ -15,6 +15,13 @@
   padding-top: 20%;
 }
 
+#textTeam {
+    color: white;
+    font-size: 32px;
+    text-shadow: 4px 4px 4px black;
+    
+}
+
 .background {
   background-color: steelblue;
 }
