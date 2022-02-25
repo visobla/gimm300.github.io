@@ -160,6 +160,21 @@ html {
   vertical-align: top;
 }
 
+.zachandiv {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  animation-name: zachani;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes zachani {
+  0%   {left:-40px; top:0px;}
+  50%  {left:-40px; top:100px;}
+  100% {left:-40px; top:0px;}
+}
+
 /** ------------------------ VIOLET ------------------------**/
 
 .violetPortfolio h1 {
