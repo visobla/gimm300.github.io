@@ -223,6 +223,35 @@ html {
   text-align: center;
 }
 
+#haydenTitle {
+    animation-name: haydenTitle;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+#haydenID{
+    margin: 3px 3px 3px 3px;
+}
+
+@keyframes haydenTitle {
+    0% {color: black}
+    20% {
+        color: grey
+    }
+    40% {
+        color: white
+    }
+    60% {
+        color: cyan
+    }
+    80%{
+        color: deepskyblue
+    }
+    100% {
+        color: darkblue
+    }
+}
+
 /** ------------------------ Misc ------------------------**/
 
 p {
