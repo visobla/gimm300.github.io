@@ -1,13 +1,16 @@
+//Install and import lodash and poker-evaluator
 const _ = require("lodash");
 const PokerEvaluator = require("poker-evaluator");
 
 class Deck{
     constructor(){
+        //Creates and instantiates a deck to hold in this class object
         this.cards=[];
         this.createDeck();
        
     }
     createDeck(){
+        //Generates 13 cards for each suit
         for(var x = 0; x<4;x++){
             var suit;
             if(x==0){
@@ -34,12 +37,14 @@ class Deck{
     }
 
     shuffleDeck() {
+        //Randomly shuffles the saved deck
         for (let i = this.cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
     draw(){
+        //Draws from top of deck, and removes it
         if(this.cards.length>0){
         var temp = this.cards[0]
         this.cards.shift()
@@ -48,10 +53,12 @@ class Deck{
     }
 
     listDeck(){
+        //Returns current deck
         return this.cards
     }
 
     checkMatch(cards){
+        //If else chain to determine the highest card combination
         if(this.royalFlush(cards)){
             return {rank:10,highCard:13};
         }
@@ -86,6 +93,7 @@ class Deck{
         ]
         var suit;
         var wrong = 0;
+        //Checks to see if the suits match within a declared variance. If it goes above that variance, there it is not a flush and does not qualify
             for(var x = 0; x<cards.length;x++){
                 if(suit==undefined){
                     suit=cards[x].suit
@@ -97,7 +105,8 @@ class Deck{
                         return false}
                     }
                 }
-                console.log(!control.includes(cards[x].number))
+                //Checks to see if they are face cards, same as above
+               // console.log(!control.includes(cards[x].number))
                 if(suit==cards[x].suit){
                 if(!control.includes(cards[x].number)){
                     wrong++
@@ -117,6 +126,7 @@ class Deck{
             Clubs:0,
             Spades:0
         };
+        //Itemizes all the suits
         var wrong=0;
         var ret = {rank:0,highCard:0}
         for(var x=0;x<cards.length;x++){
@@ -132,11 +142,13 @@ class Deck{
             else if(cards[x].suit=="Spades"){
                 suits.Spades++
             }
-
-        }
+            //if no suit claims at least 5 of the cards, it is not a flush
+        }   
         if(suits.Hearts<5&&suits.Diamonds<5&&suits.Clubs<5&&suits.Spades<5){
             return false;
         }
+
+        //Grabs the suit that has the most cards claimed
         var maxKey = _.maxBy(_.keys(suits), function (o) { return suits[o]; });
         for(var x = 0; x<cards.length;x++){
             if(cards[x].suit==maxKey){
@@ -145,25 +157,10 @@ class Deck{
         }
         temp.sort((a,b)=>a-b)
         //console.log(temp)
-        var left=[];
-        var right=[];
-        for(var a = 0; a<temp.length;a++){
-           // console.log(temp[a],temp[a+1])
-            if(temp[a]+1!=temp[a+1]&&temp[a+1]!=undefined){
-                for(var b = 0; b<a+1;b++){
-                  //  console.log(b)
-                    right.push(temp[b])
-                }
-                for(var c = a+1; c<temp.length;c++){
-                    
-                    left.push(temp[c])
-                }
-                break;
-            }
-        }
 
-        var orderedCards = left.concat(right);
         //console.log("ORDERED",orderedCards)
+
+        //Formats cards so that it is readable by the poker evaluator package (this package is only used for straights)
         var evaluate = []
         for(var x = 0; x<cards.length;x++){
             var tempString = ""
@@ -201,19 +198,19 @@ class Deck{
             evaluate.push(tempString)
         }
 
-       if(left.length==0&&right.length==0){
-         //  console.log("temp",temp)
-       }
+
        var fancy = PokerEvaluator.evalHand(evaluate)
       // console.log("left",left+","+right);
+      
       ret.rank=9;
-      ret.highCard=10
+      ret.highCard=temp[temp.length-1]
       return fancy.handName=="straight flush"?ret:false;
     }
     fourOfAKind(cards){
        // console.log(cards)
        var ret = {rank:8,highCard:0}
         var same = 0;
+        //Checks each number in the deck to see if 4 of them match
         for(var x = 1; x<14;x++){
             same=0;
             for(var y =0;y<cards.length;y++){
@@ -238,6 +235,7 @@ class Deck{
         var two;
         var high = []
         var ret = {rank:7,highCard:0}
+        //Same process as four of a kind, expect it checks for a pair and three of a kind
         for(var x = 1; x<14;x++){
            three=0
             for(var y =0;y<cards.length;y++){
@@ -255,7 +253,7 @@ class Deck{
         for(var x = 1; x<14;x++){
             two=0
             for(var y =0;y<cards.length;y++){
-                if(x==cards[y].number){
+                if(x==cards[y].number&&high[0]!=cards[y].number){
                     two++
                 }
             }
@@ -280,7 +278,7 @@ class Deck{
         var numbers=[];
         var ret = {rank:6,highCard:0}
         console.log(cards)
-        
+        //Same process in straight and royal flush
         for(var x=0;x<cards.length;x++){
             if(cards[x].suit=="Hearts"){
                 suits.Hearts++;
@@ -316,6 +314,7 @@ class Deck{
         var rightNumbers=[]
         var correctBool=true;
         var wrong = 0;
+        //Same process as straight in straight flush
         for(var x=0;x<cards.length;x++){
             temp.push(cards[x].number)
         }
@@ -391,6 +390,7 @@ class Deck{
     threeOfAKind(cards){
         var three;
         var ret = {rank:4,highCard:0}
+        //Same process as four of a kind
         for(var x = 1; x<14;x++){
             three=0
              for(var y =0;y<cards.length;y++){
@@ -407,6 +407,7 @@ class Deck{
          return false;
     }
     twoPair(cards){
+        //Same process as above
         var two = 0;
         var pair = 0;
         var ret = {rank:3,highCard:0}
@@ -434,7 +435,7 @@ class Deck{
         var ret = {rank:2,highCard:0}
         var two = 0;
        
-
+        //Refer to above
         for(var x = 1; x<14;x++){
             two=0
             for(var y =0;y<cards.length;y++){
@@ -453,6 +454,7 @@ class Deck{
 
     }
     highCard(cards){
+        //Finds and returns highest card
         var ret = {rank:1,highCard:0}
         var nums =[]
         for(var x = 0; x<cards.length;x++){
