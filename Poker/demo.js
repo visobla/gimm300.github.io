@@ -47,7 +47,33 @@ function deal(players, deck) {
 
 socket.on("connection", (socket) => {
   console.log("a user connected");
-
+  socket.on("fold", (data, callback) => {
+    var fold = 0;
+    var notFold;
+    var host;
+    for (var x = 0; x < gameData[data.code].length; x++) {
+      if (gameData[data.code][x].host) {
+        host = x;
+      }
+      if (gameData[data.code][x].user == socket.user) {
+        console.log("match", data.bet);
+        gameData[data.code][x].fold = true;
+        // console.log(gameData[data.code][x].money)
+      }
+    }
+    for (var x = 0; x < gameData[data.code].length; x++) {
+      if (gameData[data.code][x].fold) {
+        fold++;
+      } else {
+        notFold = x;
+      }
+    }
+    if (fold == gameData[data.code].length - 1) {
+      gameData[data.code][notFold].money += gameData[data.code][host].pot;
+      gameData[data.code][host].pot = 0;
+    }
+    callback("folded");
+  });
   socket.on("refresh", (data, callback) => {
     socket.emit("newPlayer");
     for (var x = 0; x < gameData[data.code].length; x++) {
@@ -266,6 +292,6 @@ socket.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
+server.listen(3000, () => {
   console.log("listening on *:3000");
 });

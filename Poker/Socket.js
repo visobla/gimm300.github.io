@@ -37,7 +37,18 @@ socket.on("newPlayer", () => {
       }
 
       var betAmount = document.createElement("input");
+      fold.onclick = function fold() {
+        console.log("CLICK");
+        var localBet = document.getElementById("amount");
+        var send = { bet: localBet.value, code: code };
 
+        socket.emit("fold", send, (response) => {
+          console.log(response);
+          socket.emit("refresh", send, (res) => {
+            socket.emit("nextTurn", send, (res) => {});
+          });
+        });
+      };
       betAmount.id = "amount";
       //Processes bet and updates the server, refreshes server which updates all the clients, and then asks the server to update the turn order
       bet.onclick = function bet() {
