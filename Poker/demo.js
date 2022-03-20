@@ -4,6 +4,7 @@ var _ = require("lodash"); //require "lodash"
 const express = require("express");
 const app = express();
 const http = require("http");
+const e = require("express");
 const server = http.createServer(app);
 let gameList = [];
 let gameData = {};
@@ -47,6 +48,7 @@ function deal(players, deck) {
 
 socket.on("connection", (socket) => {
   console.log("a user connected");
+  socket.on("continue", (data, callback) => {});
   socket.on("fold", (data, callback) => {
     var fold = 0;
     var notFold;
@@ -87,6 +89,26 @@ socket.on("connection", (socket) => {
 
     for (var x = 0; x < gameData[data.code].length; x++) {
       if (gameData[data.code][x].user == socket.user) {
+        var check = gameData[data.code][x].localBet + parseInt(data.bet);
+        if (check < gameData[data.code][0].currentBet) {
+          console.log("too little");
+          callback({ error: true });
+          return;
+        }
+        gameData[data.code][x].localBet += parseInt(data.bet);
+        if (parseInt(data.bet) > gameData[data.code][0].currentBet) {
+          gameData[data.code][x].raiser = true;
+          for (var y = 0; y < gameData[data.code].length; y++) {
+            if (y != x && gameData[data.code][y].raiser) {
+              gameData[data.code][y].raiser = false;
+            }
+          }
+          if (gameData[data.code][0].currentBet == undefined) {
+            gameData[data.code][0].currentBet = 0;
+          }
+          gameData[data.code][0].currentBet += parseInt(data.bet);
+        }
+        gameData[data.code][x].lastBet = true;
         console.log("match", data.bet);
         gameData[data.code][x].money -= data.bet;
         // console.log(gameData[data.code][x].money)
@@ -97,14 +119,17 @@ socket.on("connection", (socket) => {
           gameData[data.code][x].pot += parseInt(data.bet);
         } else {
           //console.log("not undefiend", data)
+
           gameData[data.code][x].pot += parseInt(data.bet);
         }
       }
     }
+    console.log("got here anyway");
     socket.emit("newPlayer");
     for (var x = 0; x < gameData[data.code].length; x++) {
       gameData[data.code][x].emit("newPlayer");
     }
+
     callback("Bet Added");
   });
 
@@ -150,20 +175,27 @@ socket.on("connection", (socket) => {
   });
 
   socket.on("nextTurn", (data, callback) => {
+    var flip = false;
     var sendData = [];
     var found = false;
     console.log("FINDING NEXT TURN");
     for (var x = 0; x < gameData[data.code].length; x++) {
-      console.log(gameData[data.code]);
+      console.log(gameData[data.code][x].raiser);
       if (gameData[data.code][x].turn && !found) {
         if (x == gameData[data.code].length - 1) {
           found = true;
           gameData[data.code][0].turn = true;
           gameData[data.code][gameData[data.code].length - 1].turn = false;
+          if (gameData[data.code][0].raiser) {
+            flip = true;
+          }
         } else {
           found = true;
           gameData[data.code][x].turn = false;
           gameData[data.code][x + 1].turn = true;
+          if (gameData[data.code][x + 1].raiser) {
+            flip = true;
+          }
         }
       }
       //console.log(gameData[data.code][x])
@@ -177,6 +209,10 @@ socket.on("connection", (socket) => {
         cards: gameData[data.code][x].cards,
         pot: gameData[data.code][x].pot,
         turn: gameData[data.code][x].turn,
+        board: gameData[data.code][x].board,
+        currentBet: gameData[data.code][x].currentBet,
+        raiser: gameData[data.code][x].raiser,
+        localBet: gameData[data.code][x].localBet,
       };
       console.log(temp);
       sendData.push(temp);
@@ -185,7 +221,8 @@ socket.on("connection", (socket) => {
     for (var x = 0; x < gameData[data.code].length; x++) {
       gameData[data.code][x].emit("changeTurn", sendData);
     }
-    callback(sendData);
+    console.log(flip);
+    flip ? callback({ flip: true }) : callback(sendData);
   });
 
   socket.on("getPlayerInfo", (data, callback) => {
@@ -203,6 +240,9 @@ socket.on("connection", (socket) => {
         pot: gameData[data.code][x].pot,
         turn: gameData[data.code][x].turn,
         board: gameData[data.code][x].board,
+        currentBet: gameData[data.code][x].currentBet,
+        raiser: gameData[data.code][x].raiser,
+        localBet: gameData[data.code][x].localBet,
       };
       sendData.push(temp);
     }
@@ -219,10 +259,52 @@ socket.on("connection", (socket) => {
 
     callback(socket.deck.draw());
   });
+  socket.on("setBlinds", (data, callback) => {
+    for (var x = 0; x < gameData[data.code].length; x++) {
+      if (gameData[data.code][x].big) {
+        if (x == gameData[data.code].length - 1) {
+          gameData[data.code][0].big = true;
+          gameData[data.code][0].localBet = 300;
+          gameData[data.code][0].money -= 300;
+          gameData[data.code][0].raiser = true;
+          gameData[data.code][1].small = true;
+          gameData[data.code][1].localBet = 200;
+          gameData[data.code][1].money -= 200;
+        } else {
+          gameData[data.code][x + 1].big = true;
+          gameData[data.code][x + 1].localBet = 300;
+          gameData[data.code][x + 1].raiser = true;
+
+          gameData[data.code][x + 1].money -= 300;
+          if (x + 1 == gameData[data.code].length - 1) {
+            gameData[data.code][0].small = true;
+            gameData[data.code][0].localBet = 200;
+            gameData[data.code][0].money -= 200;
+          } else {
+            gameData[data.code][x + 2].small = true;
+            gameData[data.code][x + 2].localBet = 200;
+            gameData[data.code][x + 2].localBet -= 200;
+          }
+        }
+      }
+    }
+    callback("Blinds set");
+  });
   socket.on("hands", (data, callback) => {
+    gameData[data.code][0].big = true;
+    gameData[data.code][1].small = true;
     //console.log("req",cards.draw())
     var hands = deal(gameData[data.code].length, socket.deck);
     var board = mainBoard(socket.deck);
+    gameData[data.code][0].pot = 0;
+    gameData[data.code][0].currentBet = 300;
+    gameData[data.code][0].localBet = 300;
+    gameData[data.code][0].pot += 300;
+    gameData[data.code][0].raiser = true;
+
+    gameData[data.code][0].money -= 300;
+    gameData[data.code][1].money -= 200;
+    gameData[data.code][1].localBet = 200;
     var send = [];
 
     for (var x = 0; x < gameData[data.code].length; x++) {
@@ -233,7 +315,12 @@ socket.on("connection", (socket) => {
         money: gameData[data.code][x].money,
         host: gameData[data.code][x].host,
         cards: gameData[data.code][x].cards,
+        pot: gameData[data.code][x].pot,
+        turn: gameData[data.code][x].turn,
         board: gameData[data.code][x].board,
+        currentBet: gameData[data.code][x].currentBet,
+        raiser: gameData[data.code][x].raiser,
+        localBet: gameData[data.code][x].localBet,
       };
       send.push(userData);
     }
@@ -292,6 +379,6 @@ socket.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
+server.listen(process.env.PORT, () => {
   console.log("listening on *:3000");
 });
