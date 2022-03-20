@@ -2,7 +2,7 @@ var code;
 var name;
 var currentBet;
 //Connects to server
-var socket = io("https://pokergimm.herokuapp.com/socket.io/socket.io.js");
+var socket = io("https://pokergimm.herokuapp.com/");
 //Creates listener for when a new player joins, the server will send this out
 socket.on("newPlayer", () => {
   var send = { code: code };
