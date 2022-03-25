@@ -1,7 +1,7 @@
 var code;
 var name;
 var currentBet;
-var flipCount = 0;
+var flipNumber = 0;
 //Connects to server
 var socket = io("https://pokergimm.herokuapp.com/");
 //Creates listener for when a new player joins, the server will send this out
@@ -82,6 +82,7 @@ socket.on("newPlayer", () => {
           socket.emit("refresh", send, (res) => {
             socket.emit("nextTurn", send, (res) => {
               console.log("flip check", res);
+
               return;
             });
           });
@@ -90,7 +91,7 @@ socket.on("newPlayer", () => {
         var localBet = document.getElementById("amount");
         var send = { bet: localBet.value, code: code };
         socket.on("flip", (data) => {
-          flipCount++;
+          flipNumber++;
           console.log("FLIPCOUNT");
         });
         socket.emit("bet", send, (response) => {
