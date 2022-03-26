@@ -20,6 +20,59 @@ app.get("/", (req, res) => {
   res.send("Test");
 });
 
+function endGame(data, socket) {
+  var pot;
+  var highest;
+  var highestUser;
+  var deck;
+  for (var x = 0; x < gameData[data.code].length; x++) {
+    if (gameData[data.code][x].host) {
+      pot = gameData[data.code][x].pot;
+      gameData[data.code][x].pot = 0;
+      deck = gameData[data.code][x].deck;
+    }
+    if (highestUser == undefined) {
+      var temp = gameData[data.code][x].board.concat(
+        gameData[data.code][x].cards
+      );
+      highestUser = gameData[data.code][x].user;
+      highest = deck.checkMatch(temp);
+    } else {
+      var temp = gameData[data.code][x].board.concat(
+        gameData[data.code][x].cards
+      );
+      temp = deck.checkMatch(temp);
+      console.log(temp);
+      if (highest.rank < temp.rank) {
+        highestUser = gameData[data.code][x].user;
+        highest = temp;
+      } else if (highest.rank == temp.rank) {
+        if (highest.highCard > temp.highCard) {
+          highest = highest;
+        } else {
+          highest = temp;
+          highestUser = gameData[data.code][x].user;
+        }
+      }
+    }
+  }
+  console.log(highestUser);
+  console.log(highest);
+  for (var x = 0; x < gameData[data.code].length; x++) {
+    if (highestUser == gameData[data.code][x].user) {
+      gameData[data.code][x].money += pot;
+      socket.emit("newPlayer");
+      for (var x = 0; x < gameData[data.code].length; x++) {
+        gameData[data.code][x].emit("newPlayer");
+      }
+      break;
+    }
+  }
+  for (var x = 0; x < gameData[data.code].length; x++) {
+    gameData[data.code][x].emit("reveal");
+  }
+}
+
 //Generate the game ID and checks if it already exists
 function makeId(length) {
   var result = "";
@@ -77,6 +130,7 @@ socket.on("connection", (socket) => {
     callback("folded");
   });
   socket.on("refresh", (data, callback) => {
+    console.log(data);
     socket.emit("newPlayer");
     for (var x = 0; x < gameData[data.code].length; x++) {
       gameData[data.code][x].emit("newPlayer");
@@ -96,17 +150,19 @@ socket.on("connection", (socket) => {
           return;
         }
         gameData[data.code][x].localBet += parseInt(data.bet);
-        if (parseInt(data.bet) > gameData[data.code][0].currentBet) {
-          gameData[data.code][x].raiser = true;
+        if (check > gameData[data.code][0].currentBet) {
           for (var y = 0; y < gameData[data.code].length; y++) {
-            if (y != x && gameData[data.code][y].raiser) {
+            if (gameData[data.code][y].raiser) {
               gameData[data.code][y].raiser = false;
             }
           }
+          gameData[data.code][x].raiser = true;
+
           if (gameData[data.code][0].currentBet == undefined) {
             gameData[data.code][0].currentBet = 0;
           }
-          gameData[data.code][0].currentBet += parseInt(data.bet);
+          gameData[data.code][0].currentBet +=
+            check - gameData[data.code][0].currentBet;
         }
         gameData[data.code][x].lastBet = true;
         console.log("match", data.bet);
@@ -182,11 +238,18 @@ socket.on("connection", (socket) => {
     for (var x = 0; x < gameData[data.code].length; x++) {
       console.log(gameData[data.code][x].raiser);
       if (gameData[data.code][x].turn && !found) {
+        if (gameData[data.code][x].turnCount == null) {
+          gameData[data.code][x].turnCount = 0;
+        }
+        gameData[data.code][x].turnCount++;
         if (x == gameData[data.code].length - 1) {
           found = true;
           gameData[data.code][0].turn = true;
           gameData[data.code][gameData[data.code].length - 1].turn = false;
-          if (gameData[data.code][0].raiser) {
+          if (
+            gameData[data.code][0].raiser &&
+            gameData[data.code][x].turnCount > 1
+          ) {
             flip = true;
           }
         } else {
@@ -199,6 +262,9 @@ socket.on("connection", (socket) => {
         }
       }
       //console.log(gameData[data.code][x])
+      if (gameData[data.code][x].big && gameData[data.code][x].turnCount <= 1) {
+        flip = false; //g
+      }
     }
     for (var y = 0; y < gameData[data.code].length; y++) {
       var x = y;
@@ -221,8 +287,26 @@ socket.on("connection", (socket) => {
     for (var x = 0; x < gameData[data.code].length; x++) {
       gameData[data.code][x].emit("changeTurn", sendData);
     }
+
     console.log(flip);
-    flip ? callback({ flip: true }) : callback(sendData);
+
+    if (flip) {
+      if (gameData[data.code][0].flipCount == undefined) {
+        gameData[data.code][0].flipCount = 0;
+      }
+      gameData[data.code][0].flipCount++;
+
+      for (var x = 0; x < gameData[data.code].length; x++) {
+        console.log(x);
+        gameData[data.code][x].emit("flip", sendData);
+      }
+    } else {
+      if (gameData[data.code][0].flipCount == 3) {
+        endGame(data, socket);
+        return;
+      }
+      callback(sendData);
+    }
   });
 
   socket.on("getPlayerInfo", (data, callback) => {
@@ -291,6 +375,13 @@ socket.on("connection", (socket) => {
     callback("Blinds set");
   });
   socket.on("hands", (data, callback) => {
+    if (gameData[data.code].length > 2) {
+      gameData[data.code][0].turn = false;
+      gameData[data.code][2].turn = true;
+    }
+    for (var x = 0; x < gameData[data.code].length; x++) {
+      gameData[data.code][x].localBet = 0;
+    }
     gameData[data.code][0].big = true;
     gameData[data.code][1].small = true;
     //console.log("req",cards.draw())
@@ -324,61 +415,17 @@ socket.on("connection", (socket) => {
       };
       send.push(userData);
     }
-
+    for (var x = 0; x < gameData[data.code].length; x++) {
+      gameData[data.code][x].emit("gameStarted", userData);
+    }
     callback(send);
   });
 
   socket.on("end", (data) => {
-    var pot;
-    var highest;
-    var highestUser;
-    var deck;
-    for (var x = 0; x < gameData[data.code].length; x++) {
-      if (gameData[data.code][x].host) {
-        pot = gameData[data.code][x].pot;
-        gameData[data.code][x].pot = 0;
-        deck = gameData[data.code][x].deck;
-      }
-      if (highestUser == undefined) {
-        var temp = gameData[data.code][x].board.concat(
-          gameData[data.code][x].cards
-        );
-        highestUser = gameData[data.code][x].user;
-        highest = deck.checkMatch(temp);
-      } else {
-        var temp = gameData[data.code][x].board.concat(
-          gameData[data.code][x].cards
-        );
-        temp = deck.checkMatch(temp);
-        console.log(temp);
-        if (highest.rank < temp.rank) {
-          highestUser = gameData[data.code][x].user;
-          highest = temp;
-        } else if (highest.rank == temp.rank) {
-          if (highest.highCard > temp.highCard) {
-            highest = highest;
-          } else {
-            highest = temp;
-            highestUser = gameData[data.code][x].user;
-          }
-        }
-      }
-    }
-    console.log(highestUser);
-    console.log(highest);
-    for (var x = 0; x < gameData[data.code].length; x++) {
-      if (highestUser == gameData[data.code][x].user) {
-        gameData[data.code][x].money += pot;
-        socket.emit("newPlayer");
-        for (var x = 0; x < gameData[data.code].length; x++) {
-          gameData[data.code][x].emit("newPlayer");
-        }
-        break;
-      }
-    }
+    endGame(data, socket);
   });
 });
 
-server.listen(process.env.PORT, () => {
+server.listen(3000, () => {
   console.log("listening on *:3000");
 });
