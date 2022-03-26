@@ -32,6 +32,14 @@ mainBoard.push(bCard5);
 
 //Connects to server
 var socket = io("https://pokergimm.herokuapp.com/");
+
+socket.on("gameStarted", (data) => {
+
+console.log(data.board)
+mainBoard[0].src = cardList[data.board[0].suit][(data.board[0].number)-1];
+mainBoard[1].src = cardList[data.board[1].suit][(data.board[1].number)-1];
+mainBoard[2].src = cardList[data.board[2].suit][(data.board[2].number)-1];
+})
 //Creates listener for when a new player joins, the server will send this out
 socket.on("newPlayer", () => {
   var send = { code: code };
@@ -122,6 +130,13 @@ socket.on("newPlayer", () => {
         var send = { bet: localBet.value, code: code };
         socket.on("flip", (data) => {
           flipNumber++;
+          if(flipNumber == 1){
+            mainBoard[3].src = cardList[data[0].board[3].suit][(data[0].board[3].number)-1];
+          }
+          if(flipNumber == 2){
+            mainBoard[4].src = cardList[data[0].board[4].suit][(data[0].board[4].number)-1];
+          } 
+          console.log(data, "LOOK AT MMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
           console.log("FLIPNUMBER");
         });
         socket.emit("bet", send, (response) => {
@@ -266,6 +281,8 @@ function create() {
   socket.emit("createGame", send, (res) => {
     //  console.log(res);
     code = res;
+    var codeText = document.getElementById("code");
+        codeText.innerHTML = "Lobby Code: " + code;
   });
   //console.log("got");
 }
