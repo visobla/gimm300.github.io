@@ -2,6 +2,34 @@ var code;
 var name;
 var currentBet;
 var flipNumber = 0;
+
+//Card objects to make easy to pull/display cards on screen
+var hearts = ["../Images/cardImages/PNG-cards-1.3/ace_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/2_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/3_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/4_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/5_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/6_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/7_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/8_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/9_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/10_of_hearts.png", "../Images/cardImages/PNG-cards-1.3/jack_of_hearts2.png", "../Images/cardImages/PNG-cards-1.3/queen_of_hearts2.png", "../Images/cardImages/PNG-cards-1.3/king_of_hearts2.png"];
+var spades = ["../Images/cardImages/PNG-cards-1.3/ace_of_spades.png", "../Images/cardImages/PNG-cards-1.3/2_of_spades.png", "../Images/cardImages/PNG-cards-1.3/3_of_spades.png", "../Images/cardImages/PNG-cards-1.3/4_of_spades.png", "../Images/cardImages/PNG-cards-1.3/5_of_spades.png", "../Images/cardImages/PNG-cards-1.3/6_of_spades.png", "../Images/cardImages/PNG-cards-1.3/7_of_spades.png", "../Images/cardImages/PNG-cards-1.3/8_of_spades.png", "../Images/cardImages/PNG-cards-1.3/9_of_spades.png", "../Images/cardImages/PNG-cards-1.3/10_of_spades.png", "../Images/cardImages/PNG-cards-1.3/jack_of_spades2.png", "../Images/cardImages/PNG-cards-1.3/queen_of_spades2.png", "../Images/cardImages/PNG-cards-1.3/king_of_spades2.png"];
+var diamonds = ["../Images/cardImages/PNG-cards-1.3/ace_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/2_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/3_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/4_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/5_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/6_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/7_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/8_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/9_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/10_of_diamonds.png", "../Images/cardImages/PNG-cards-1.3/jack_of_diamonds2.png", "../Images/cardImages/PNG-cards-1.3/queen_of_diamonds2.png", "../Images/cardImages/PNG-cards-1.3/king_of_diamonds2.png"];
+var clubs = ["../Images/cardImages/PNG-cards-1.3/ace_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/2_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/3_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/4_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/5_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/6_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/7_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/8_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/9_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/10_of_clubs.png", "../Images/cardImages/PNG-cards-1.3/jack_of_clubs2.png", "../Images/cardImages/PNG-cards-1.3/queen_of_clubs2.png", "../Images/cardImages/PNG-cards-1.3/king_of_clubs2.png"];
+var cardBack = "..//Images/cardImages/PNG-cards-1.3/back.png";
+var cardList = {Hearts:hearts, Spades:spades, Diamonds:diamonds, Clubs:clubs};
+
+//Main Board Card set up variables
+var mainBoard = [];
+var bCard1 = document.createElement("img");
+bCard1.src= cardBack;
+mainBoard.push(bCard1);
+var bCard2 = document.createElement("img");
+bCard2.src= cardBack;
+mainBoard.push(bCard2);
+var bCard3 = document.createElement("img");
+bCard3.src= cardBack;
+mainBoard.push(bCard3);
+var bCard4 = document.createElement("img");
+bCard4.src= cardBack;
+mainBoard.push(bCard4);
+var bCard5 = document.createElement("img");
+bCard5.src= cardBack;
+mainBoard.push(bCard5);
+
+
 //Connects to server
 var socket = io("https://pokergimm.herokuapp.com/");
 //Creates listener for when a new player joins, the server will send this out
@@ -16,7 +44,9 @@ socket.on("newPlayer", () => {
     // console.log(response);
     var container = document.createElement("div");
     var board = document.getElementById("board");
-    board.innerText = JSON.stringify(response[0].board);
+    for(var i = 0; i < mainBoard.length; i++){
+      board.appendChild(mainBoard[i]);
+    }
 
     for (var x = 0; x < response.length; x++) {
       var nameFile = document.createElement("h2");
@@ -92,7 +122,7 @@ socket.on("newPlayer", () => {
         var send = { bet: localBet.value, code: code };
         socket.on("flip", (data) => {
           flipNumber++;
-          console.log("FLIPCOUNT");
+          console.log("FLIPNUMBER");
         });
         socket.emit("bet", send, (response) => {
           //console.log(response);
@@ -118,7 +148,15 @@ socket.on("newPlayer", () => {
       //console.log(response[x].name.toString(), name);
       if (response[x].name.toString() == name) {
         console.log(check);
-
+        var card1 = document.createElement("img");
+        var card2 = document.createElement("img");
+        if (response[x].cards != undefined) {
+         console.log(response[x].cards);
+         card1.src = cardList[response[x].cards[0].suit][(response[x].cards[0].number)-1];
+         card2.src = cardList[response[x].cards[1].suit][(response[x].cards[1].number)-1];
+         container.appendChild(card1);
+         container.appendChild(card2);
+        }
         console.log(response);
         console.log(response[0].currentBet - response[x].localBet);
         match.innerHTML =
@@ -131,11 +169,15 @@ socket.on("newPlayer", () => {
 
       var money = document.createElement("h2");
       money.innerText = response[x].money;
-      if (response[x].cards != undefined) {
-        var cards = document.createElement("p");
-        cards.innerText = JSON.stringify(response[x].cards);
-        container.appendChild(cards);
-      }
+      var card1 = document.createElement("img");
+      var card2 = document.createElement("img");
+      if (response[x].cards != undefined && response[x].name.toString() != name) {
+        console.log(response[x].cards);
+        card1.src = cardBack;
+        card2.src = cardBack;
+        container.appendChild(card1);
+        container.appendChild(card2);
+       }
       container.appendChild(nameFile);
       container.appendChild(money);
     }
@@ -255,7 +297,7 @@ function startGame() {
   socket.emit("hands", send, (response) => {
     // console.log(response);
 
-    socket.emit("refresh", send, (res) => {});
+    socket.emit("refresh", send, (res) => { });
   });
 }
 //Ends the game, right now is button, should be done automatically on last turn
