@@ -361,8 +361,19 @@ iframe {
 .hoverImage:hover {
   transform: scale(1.1);
 }
-html,
-body {
+
+.nav-link{
+	color: black !important;
+	}
+a{
+	color:black;
+}
+.centeredText{
+text-align: center;
+width: 100%;
+}
+
+html,body {
   height: 100%;
 }
 
@@ -382,3 +393,4 @@ body {
   clear: both;
   padding-top: 20px;
 }
+
