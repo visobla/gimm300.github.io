@@ -394,29 +394,29 @@ a {
 	overflow: auto;
 }
 
-.topnav {
+/*.topnav {
 	overflow: hidden;
 	background-color: black;
-}
+}*/
 
-.topnav a {
+/*.topnav a {
 	float: left;
 	color: white;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
 	font-size: 17px;
-}
+}*/
 
-.topnav a:hover {
+/*.topnav a:hover {
 	background-color: white;
 	color: black;
-}
+}*/
 
-.topnav a.active {
+/*.topnav a.active {
 	background-color: red;
 	color: white;
-}
+}*/
 .profilePics {
 	margin: auto;
 }
