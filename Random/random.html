@@ -8,33 +8,8 @@
 
 </head>
 <body>
-<script type="text/javascript">
-function changeText() {
-		document.getElementById("test").innerHTML=("Text has changed");
-	}
+<script src="random.js"></script>
 
-function changeTextBack() {
-		document.getElementById("test").innerHTML=("A paragraph");
-	}
-
-
-
-
-function changeTitleColor() {
-        document.getElementById("title").style.color = "red";
-}
-
-function changeTitleColorBack() {
-        document.getElementById("title").style.color = "black";
-}
-
-
-
-function submit() {
-        document.getElementById("submitted").innerHTML=("Submitted!");
-}
-
-</script>
     <h1 id="title">Title</h1>
     <button type="button" onclick="changeTitleColor()">Change Title Color</button>
     <button type="button" onclick="changeTitleColorBack()">Revert</button>
@@ -49,5 +24,6 @@ function submit() {
     <button type="button" onclick="submit()">Submit</button>
     <h2 id="submitted"> </h2>
     </div>
+</script>
 </body>
 
