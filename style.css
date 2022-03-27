@@ -271,6 +271,11 @@ ul {
   font-size: 20px;
   margin: 70px;
 }
+h1{
+	text-align: center;
+	color:white;
+	background:  rgba(210, 215, 211, 0.3);
+}
 
 h3 {
   float: right;
@@ -351,6 +356,7 @@ iframe {
 .hoverImage {
   transition: transform 200ms ease-in-out;
   border-radius: 5px;
+
 }
 .hoverImage:hover {
   transform: scale(1.1);
