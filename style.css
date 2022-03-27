@@ -33,7 +33,7 @@ html {
   background-size: cover;
 }
 .backimage2 {
-  background: url("./Images/halo 2.jpg") no-repeat center center fixed !important;
+  background: url("./Images/halo 2.jpg") no-repeat center center fixed;
   height: 100%;
   background-size: cover;
 }
@@ -60,11 +60,11 @@ html {
 
 /** ------------------------ RYNA ------------------------**/
 
-/* #rynaName {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+#rynaName {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 #rynaWork {
   color: rgb(255, 255, 255);
@@ -92,10 +92,16 @@ p.rynaPortfolio {
   display: block;
 }
 .responsiveryna {
-	width: 80%;
-	max-width: 850px;
-	height: auto;
-} */
+  width: 80%;
+  max-width: 850px;
+  height: auto;
+}
+.rynaPortfolio {
+  padding-bottom: 5%;
+}
+.rynaPortfolio a {
+  color: white;
+}
 
 /** ------------------------ ZACH ------------------------**/
 
@@ -406,6 +412,7 @@ a {
 html,
 body {
   height: 100%;
+  background-color: transparent !important;
 }
 
 #wrap {
