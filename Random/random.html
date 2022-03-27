@@ -8,6 +8,32 @@
 
 </head>
 <body>
-    <script src="random.js"></script>
+<script type="text/javascript">
+function changeText() {
+		document.getElementById("test").innerHTML=("Text has changed");
+	}
+
+function changeTextBack() {
+		document.getElementById("test").innerHTML=("A paragraph");
+	}
+
+
+
+
+function changeTitleColor() {
+        document.getElementById("title").style.color = "red";
+}
+
+function changeTitleColorBack() {
+        document.getElementById("title").style.color = "black";
+}
+</script>
+    <h1 id="title">Title</h1>
+    <button type="button" onclick="changeTitleColor()">Change Title Color</button>
+    <button type="button" onclick="changeTitleColorBack()">Revert</button>
+
+    <p id="test">A paragraph</p>
+    <button type="button" onclick="changeText()">Change Text</button>
+    <button type="button" onclick="changeTextBack()">Revert</button>
 </body>
 
