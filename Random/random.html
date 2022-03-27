@@ -27,6 +27,13 @@ function changeTitleColor() {
 function changeTitleColorBack() {
         document.getElementById("title").style.color = "black";
 }
+
+
+
+function submit() {
+        document.getElementById("submitted").innerHTML=("Submitted!");
+}
+
 </script>
     <h1 id="title">Title</h1>
     <button type="button" onclick="changeTitleColor()">Change Title Color</button>
@@ -35,5 +42,12 @@ function changeTitleColorBack() {
     <p id="test">A paragraph</p>
     <button type="button" onclick="changeText()">Change Text</button>
     <button type="button" onclick="changeTextBack()">Revert</button>
+    
+    <div>
+    <label for="textbox">Type here:</label>
+    <input type="text" id="textbox" name="textbox"><br><br>
+    <button type="button" onclick="submit()">Submit</button>
+    <h2 id="submitted"> </h2>
+    </div>
 </body>
 
