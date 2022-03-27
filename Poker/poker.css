@@ -1,7 +1,7 @@
 img {
-  max-width: 300px;
-  padding-left: 5%;
-  padding-right: 5%;
+  max-width: 300px !important;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
 }
 
 #startButton {
@@ -9,15 +9,17 @@ img {
 }
 
 .pokerTable {
-  background: url("../Images/pokerBackground.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  text-align: center;
-  padding-top: 5%;
+  background: url("../Images/pokerBackground.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;
+  text-align: center !important;
 }
 
 p {
-  color: rgb(222, 220, 247);
+  color: rgb(222, 220, 247) !important;
+}
+h1 {
+  background-color: transparent !important;
 }
