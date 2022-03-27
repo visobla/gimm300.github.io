@@ -234,6 +234,10 @@ socket.on("newPlayer", () => {
 
       //console.log(response[x].name.toString(), name);
       if (response[x].name.toString() == name) {
+        if (x == 0) {
+          var startButton = document.getElementById("startButton");
+          startButton.style.display = "inline";
+        }
         console.log(check);
         var card1 = document.createElement("img");
         var card2 = document.createElement("img");

@@ -27,6 +27,37 @@ html {
   min-height: 100%;
 }
 
+.backimage1 {
+  background: url("./Images/halo 1.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
+}
+.backimage2 {
+  background: url("./Images/halo 2.jpg") no-repeat center center fixed !important;
+  height: 100%;
+  background-size: cover;
+}
+.backimage3 {
+  background: url("./Images/halo 3.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
+}
+.backimage4 {
+  background: url("./Images/halo 4.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
+}
+.backimage5 {
+  background: url("./Images/halo-forge.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
+}
+.responsivemain {
+  background: url("./Images/tacmap.png") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
+}
+
 /** ------------------------ RYNA ------------------------**/
 
 /* #rynaName {
@@ -36,29 +67,29 @@ html {
 	text-align: center;
 }
 #rynaWork {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 p.rynaPortfolio {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 .rynaPortfolio p {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 .rynaPortfolio iframe {
-	margin: 0 auto;
-	background-color: rgb(0, 0, 0, 0.4);
-	width: 600px;
-	height: 300px;
-	display: block;
+  margin: 0 auto;
+  background-color: rgb(0, 0, 0, 0.4);
+  width: 600px;
+  height: 300px;
+  display: block;
 }
 .responsiveryna {
 	width: 80%;
@@ -75,31 +106,31 @@ p.rynaPortfolio {
 }
 
 #zachright {
-	float: right;
+  float: right;
 }
 
 #zachtextmargin {
-	margin-right: 20px;
+  margin-right: 20px;
 }
 
 .zachPortfolio h1 {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 
 .threeD {
-	vertical-align: top;
+  vertical-align: top;
 }
 
 .zachandiv {
-	width: 100px;
-	height: 100px;
-	position: relative;
-	animation-name: zachani;
-	animation-duration: 4s;
-	animation-iteration-count: infinite;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  animation-name: zachani;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
 }
 
 @keyframes zachani {
@@ -126,70 +157,70 @@ p.rynaPortfolio {
 	text-align: center;
 }
 .violetPortfolio h2 {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 
 .violetPortfolio h3 {
-	color: rgb(255, 255, 255);
-	background-color: rgb(0, 0, 0, 0.4);
-	margin: 0;
-	text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0, 0.4);
+  margin: 0;
+  text-align: center;
 }
 
 .responsiveViolet {
-	width: 100%;
-	max-width: 50%;
-	height: auto;
-	text-align: left;
+  width: 100%;
+  max-width: 50%;
+  height: auto;
+  text-align: left;
 }
 .responsiveVioletRight {
-	width: 100%;
-	max-width: 850px;
-	height: auto;
-	text-align: left;
+  width: 100%;
+  max-width: 850px;
+  height: auto;
+  text-align: left;
 }
 
 .left {
-	width: 100%;
-	max-width: 50%;
-	height: 100%;
-	text-align: left;
-	margin-right: 50%;
+  width: 100%;
+  max-width: 50%;
+  height: 100%;
+  text-align: left;
+  margin-right: 50%;
 }
 
 .right {
-	width: 100%;
-	max-width: 50%;
-	height: 100%;
-	text-align: right;
-	margin-left: 50%;
+  width: 100%;
+  max-width: 50%;
+  height: 100%;
+  text-align: right;
+  margin-left: 50%;
 }
 
 .violetBackground {
-	background-color: rgba(0, 0, 255, .1);
-	margin: 10px;
-	border-radius: 15px;
+  background-color: rgba(0, 0, 255, 0.1);
+  margin: 10px;
+  border-radius: 15px;
 }
 
 div.at-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 .at-item {
-	color: #3079ed;
-	animation-name: text-shadow-multicolor2;
-	animation-duration: 1s;
-	animation-timing-function: ease;
-	animation-delay: 0s;
-	animation-iteration-count: infinite;
-	animation-direction: normal;
-	animation-fill-mode: forwards;
-	/* shorthand 
+  color: #3079ed;
+  animation-name: text-shadow-multicolor2;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  /* shorthand 
   animation: text-shadow-multicolor2 1s ease 0s 1 normal forwards;
 }
   */
@@ -271,10 +302,10 @@ ul {
   font-size: 20px;
   margin: 70px;
 }
-h1{
-	text-align: center;
-	color:white;
-	background:  rgba(210, 215, 211, 0.3);
+h1 {
+  text-align: center;
+  color: white;
+  background: rgba(210, 215, 211, 0.3);
 }
 
 h3 {
@@ -356,24 +387,24 @@ iframe {
 .hoverImage {
   transition: transform 200ms ease-in-out;
   border-radius: 5px;
-
 }
 .hoverImage:hover {
   transform: scale(1.1);
 }
 
-.nav-link{
-	color: black !important;
-	}
-a{
-	color:black;
+.nav-link {
+  color: black !important;
 }
-.centeredText{
-text-align: center;
-width: 100%;
+a {
+  color: black;
+}
+.centeredText {
+  text-align: center;
+  width: 100%;
 }
 
-html,body {
+html,
+body {
   height: 100%;
 }
 
@@ -393,4 +424,3 @@ html,body {
   clear: both;
   padding-top: 20px;
 }
-
